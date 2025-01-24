@@ -1,6 +1,6 @@
-from .board import create_board, display_board
-from .utils import get_cell_content, is_valid_group, get_neighbors
-from .moves import push_marbles, make_move
+from board import create_board, display_board
+from utils import get_cell_content, is_valid_group, get_neighbors
+from moves import push_marbles, make_move
 from copy import deepcopy
 from itertools import combinations
 
@@ -157,8 +157,56 @@ class AbaloneGame:
                     self.board = temp_board
         
         return legal_moves
-
-
+    def count_all_possible_moves(self):
+        """
+        Compte le nombre total de coups possibles dans une position d'Abalone
+        Returns:
+            dict: Statistiques détaillées des coups possibles
+        """
+        stats = {
+            'single_moves': 0,  # Mouvements d'une seule bille
+            'double_moves': 0,  # Mouvements de 2 billes
+            'triple_moves': 0,  # Mouvements de 3 billes
+            'push_moves': 0,    # Coups de poussée
+            'total_moves': 0    # Total des coups possibles
+        }
+        
+        valid_groups = self.get_all_valid_groups()
+        
+        for group in valid_groups:
+            # Pour les groupes d'une seule bille, on ne teste que les directions des voisins valides
+            if len(group) == 1:
+                x, y = group[0]
+                neighbors = get_neighbors(self.board, x, y)
+                for direction in neighbors.keys():
+                    temp_board = deepcopy(self.board)
+                    if self.test_move(list(group), direction):
+                        stats['single_moves'] += 1
+                        stats['total_moves'] += 1
+                    self.board = temp_board
+            else:
+                # Pour les groupes de 2 ou 3 billes, on teste toutes les directions
+                for direction in ['NW', 'NE', 'E', 'SE', 'SW', 'W']:
+                    temp_board = deepcopy(self.board)
+                    
+                    # Test si c'est une poussée valide
+                    is_push, _, _ = push_marbles(self.board, list(group), direction)
+                    if is_push:
+                        stats['push_moves'] += 1
+                        stats['total_moves'] += 1
+                    else:
+                        # Test si c'est un mouvement normal valide
+                        success = self.test_move(list(group), direction)
+                        if success:
+                            if len(group) == 2:
+                                stats['double_moves'] += 1
+                            else:  # len(group) == 3
+                                stats['triple_moves'] += 1
+                            stats['total_moves'] += 1
+                    
+                    self.board = temp_board
+        
+        return stats
 
 def play_game():
     game = AbaloneGame()

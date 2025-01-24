@@ -1,5 +1,5 @@
 # utils.py
-from .board import get_cell_content
+from board import get_cell_content
 
 def get_neighbors(board, x, y):
     """

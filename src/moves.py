@@ -1,6 +1,6 @@
 # moves.py
-from .utils import get_neighbors, is_valid_group
-from .board import get_cell_content
+from utils import get_neighbors, is_valid_group
+from board import get_cell_content
 
 def move_piece(board, start_x, start_y, end_x, end_y):
     """
@@ -58,22 +58,22 @@ def move_group_inline(board, coordinates, direction):
    # Si les billes sont sur la même colonne (même x)
    if len(set(x for x, y in coordinates)) == 1:
        if direction not in ['NW', 'SE'] and direction not in ['NE', 'SW']:
-           print("Direction invalide pour un groupe vertical : doit être NW/SE ou NE/SW")
+          # print("Direction invalide pour un groupe vertical : doit être NW/SE ou NE/SW")
            return False, "Direction invalide pour un groupe vertical : doit être NW/SE ou NE/SW"
    
    # Si les billes sont sur la même ligne (même y)
    elif len(set(y for x, y in coordinates)) == 1:
        if direction not in ['E', 'W']:
-           print("Direction invalide pour un groupe aligné horizontalement")
+           #print("Direction invalide pour un groupe aligné horizontalement")
            return False, "Direction invalide pour un groupe aligné horizontalement"
    
    # Si les billes sont alignées diagonalement
    else:
        if alignment == 'NE' and direction not in ['NE', 'SW']:
-           print("Direction invalide pour un groupe aligné en NE/SW")
+           #print("Direction invalide pour un groupe aligné en NE/SW")
            return False, "Direction invalide pour un groupe aligné en NE/SW"
        elif alignment == 'SE' and direction not in ['SE', 'NW']:
-           print("Direction invalide pour un groupe aligné en SE/NW")
+           #print("Direction invalide pour un groupe aligné en SE/NW")
            return False, "Direction invalide pour un groupe aligné en SE/NW"
    
    # Trier les coordonnées selon la direction du mouvement
@@ -189,8 +189,8 @@ def move_group_parallel(board, coordinates, direction):
    return True, "Mouvement parallèle effectué avec succès"
 
 def is_valid_push(board, pushing_coordinates, direction):
-    print(f"\nDébut vérification poussée:")
-    print(f"Coordonnées initiales: {pushing_coordinates}")
+   # print(f"\nDébut vérification poussée:")
+   # print(f"Coordonnées initiales: {pushing_coordinates}")
     
     # Tri des coordonnées dans l'ordre de la poussée
     if direction == 'E':
@@ -202,11 +202,11 @@ def is_valid_push(board, pushing_coordinates, direction):
     else:  # NW, NE
         pushing_coordinates = sorted(pushing_coordinates, key=lambda pos: pos[1], reverse=True)
     
-    print(f"Coordonnées après tri: {pushing_coordinates}")
+   # print(f"Coordonnées après tri: {pushing_coordinates}")
     
     # Vérification du groupe
     is_valid, message, alignment = is_valid_group(board, pushing_coordinates)
-    print(f"Vérification groupe: valide={is_valid}, message={message}, alignment={alignment}")
+   # print(f"Vérification groupe: valide={is_valid}, message={message}, alignment={alignment}")
     if not is_valid:
         return False, f"Groupe de billes qui poussent invalide: {message}", []
     
@@ -228,7 +228,7 @@ def is_valid_push(board, pushing_coordinates, direction):
         return False, "Pas de case valide dans cette direction", []
     
     next_x, next_y = neighbors[direction]
-    print(f"Position à pousser: ({next_x},{next_y})")
+    #print(f"Position à pousser: ({next_x},{next_y})")
     
     # Identifier les billes qui vont être poussées
     pushed_coordinates = []
@@ -236,7 +236,7 @@ def is_valid_push(board, pushing_coordinates, direction):
     
     while True:
         content = get_cell_content(board, current_x, current_y)
-        print(f"Vérification position ({current_x},{current_y}): contenu={content}")
+       # print(f"Vérification position ({current_x},{current_y}): contenu={content}")
         
         if content not in ['W', 'B']:  # Case vide ou invalide
             break
@@ -250,7 +250,7 @@ def is_valid_push(board, pushing_coordinates, direction):
             break
         current_x, current_y = neighbors[direction]
     
-    print(f"Billes poussées trouvées: {pushed_coordinates}")
+   # print(f"Billes poussées trouvées: {pushed_coordinates}")
     
     # Vérifications finales
     if len(pushed_coordinates) == 0:
@@ -356,3 +356,4 @@ def make_move(board, coordinates, direction):
     
     else:
         return False, "Nombre invalide de billes sélectionnées"
+    
