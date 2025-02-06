@@ -107,47 +107,6 @@ def test_inline_move_old():
         print("Nouveau plateau:")
         display_board(new_board_west)
 
-# def test_inline_move():
-#     # Même configuration que précédemment
-#     marbles = [
-#         ((0, 0, 0), 1),    # Première bille noire
-#         ((1, -1, 0), 1),   # Deuxième bille noire
-#         ((2, -2, 0), -1)   # Bille blanche
-#     ]
-#     board = create_custom_board(marbles)
-
-#     print("État initial:")
-#     display_board(board)
-#     # print("\nValeurs numériques du plateau initial:")
-#     # print(board)
-
-#     positions = jnp.array([
-#         [0, 0, 0],      # première bille
-#         [1, -1, 0],     # deuxième bille
-#         [0, 0, 0]       # padding
-#     ])
-#     group_size = 2
-
-#     # Test direction Ouest (4)
-#     print("\nTest mouvement vers l'Ouest (retrait):")
-#     new_board_west, success_west, billes_sorties_west = move_group_inline(board, positions, 4, group_size)
-#     # print("\nValeurs numériques du nouveau plateau:")
-#     # print(new_board_west)
-#     if success_west:
-#         print("\nNouveau plateau:")
-#         display_board(new_board_west)
-
-#         # Afficher les positions où il devrait y avoir des billes noires
-#         print("\nVérification des positions après mouvement:")
-#         # Convertir les board_positions en coordonnées relatives (-4 à +4)
-#         for x in range(9):
-#             for y in range(9):
-#                 for z in range(9):
-#                     if new_board_west[x,y,z] == 1:  # bille noire
-#                         print(f"Bille noire à la position: ({x-4}, {y-4}, {z-4})")
-#                     elif new_board_west[x,y,z] == -1:  # bille blanche
-#                         print(f"Bille blanche à la position: ({x-4}, {y-4}, {z-4})")
-
 def test_inline_move():
     # Configuration avec 2 billes noires et 1 blanche
     marbles = [
@@ -903,7 +862,7 @@ if __name__ == "__main__":
     #test_initial_legal_moves()
    # test_custom_board_moves_cano()
 
-    #test_initial_legal_moves()
+    test_initial_legal_moves()
     test_push_scenarios()
     #test_debugs_moves()
 
